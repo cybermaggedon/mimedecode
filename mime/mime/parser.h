@@ -13,6 +13,7 @@ namespace mime {
       public:
 	virtual void parse(unsigned char c) = 0;
 	virtual void close() {}
+	virtual ~parser() {}
     };
 
     class object_parser : public parser {
