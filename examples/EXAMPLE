@@ -1,0 +1,30 @@
+Content-Type: multipart/mixed; boundary="===============2127632599316065889=="
+MIME-Version: 1.0
+Subject: This is the subject
+From: sender@localhost
+To: recipient@localhost
+
+--===============2127632599316065889==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+
+Hiya,
+
+Hope you like this message.
+
+Bye!
+
+--===============2127632599316065889==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename=config1.txt
+
+Hiya,
+
+Hope you like this message.
+
+Bye!
+
+--===============2127632599316065889==--

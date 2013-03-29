@@ -1,0 +1,42 @@
+Content-Type: multipart/mixed; boundary="===============0026545151753562943=="
+MIME-Version: 1.0
+Subject: This is the subject
+From: sender@localhost
+To: recipient@localhost
+
+This text is supposed to be ignored, I think.
+
+Text is here!
+
+--===============0026545151753562943==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+
+Hiya,
+
+Hope you like this message.
+
+Bye!
+
+--===============0026545151753562943==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="config.txt"
+
+Hiya,
+
+Hope you like this message.
+
+Bye!
+
+--===============0026545151753562943==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Disposition: attachment; filename="stuff.bin"
+Content-Transfer-Encoding: base64
+
+SGl5YSwKCkhvcGUgeW91IGxpa2UgdGhpcyBtZXNzYWdlLgoKQnllIQo=
+
+--===============0026545151753562943==--
