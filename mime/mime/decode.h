@@ -67,8 +67,10 @@ namespace mime {
 	   to the decoder to finalise processing and clean up all resources.
 	*/
 	void close() {
-	    p->close();
-	    delete p;
+            if (p) {
+              p->close();
+              delete p;
+            }
 	    delete obj;
 	}
 	/**
