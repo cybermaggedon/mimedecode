@@ -14,7 +14,7 @@ void base64_parser::parse(unsigned char c)
 	buflen++;
     } else {
 	unsigned int pos = encoding.find(c);
-	if (pos >= 0) {
+	if (pos != std::string::npos) {
 	    buffer = buffer << 6;
 	    buffer = buffer | (pos & 0x3f);
 	    buflen++;
