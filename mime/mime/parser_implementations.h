@@ -9,6 +9,8 @@
 #include <mime/client.h>
 #include <mime/parser.h>
 
+#include <stdint.h>
+
 namespace mime {
 
     class base64_parser : public object_body_parser {
