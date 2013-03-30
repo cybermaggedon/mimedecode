@@ -5,8 +5,16 @@ all: decoder
 
 LIB_OBJECTS=decode.o parser.o multipart.o header.o
 
-decoder: ${LIB_OBJECTS} simple.o
-	${CXX} ${CXXFLAGS} ${LIB_OBJECTS} simple.o -o $@
+install: libmimedecode.a
+	cp libmimedecode.a /usr/lib
+	cp -r mime /usr/include
+
+libmimedecode.a: ${LIB_OBJECTS}
+	rm -f $@
+	ar rcs libmimedecode.a ${LIB_OBJECTS}
+
+decoder: libmimedecode.a simple.o
+	${CXX} ${CXXFLAGS} simple.o -o $@ libmimedecode.a
 
 mime_decode.o decoder.o: mime/decode.h
 

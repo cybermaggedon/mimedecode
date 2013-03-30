@@ -1,0 +1,34 @@
+*** New object type multipart/mixed
+  content-type:multipart/mixed
+    boundary:===============2127632599316065889==
+  from:sender@localhost
+  mime-version:1.0
+  subject:This is the subject
+  to:recipient@localhost
+*** New object type text/plain
+  content-transfer-encoding:7bit
+  content-type:text/plain
+    charset:us-ascii
+  mime-version:1.0
+*** Data start text/plain
+Hiya,
+
+Hope you like this message.
+
+Bye!
+
+*** Data end text/plain
+*** New object type text/plain
+  content-disposition:attachment; filename=config1.txt
+  content-transfer-encoding:7bit
+  content-type:text/plain
+    charset:us-ascii
+  mime-version:1.0
+*** Data start text/plain
+Hiya,
+
+Hope you like this message.
+
+Bye!
+
+*** Data end text/plain
