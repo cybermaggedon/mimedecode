@@ -89,7 +89,7 @@ void header_parser::add_header(const std::string& key,
 }
 
 
-void header_parser::parse(unsigned char* buf, unsigned int len)
+void header_parser::parse(const unsigned char* buf, unsigned int len)
 {
 
     for(int i = 0; i < len; i++) {

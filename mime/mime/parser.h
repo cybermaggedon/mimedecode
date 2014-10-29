@@ -12,7 +12,7 @@ namespace mime {
     class parser {
       public:
 	virtual void parse(unsigned char c) { parse(&c, 1); }
-	virtual void parse(unsigned char* c, unsigned int len) = 0;
+	virtual void parse(const unsigned char* c, unsigned int len) = 0;
 	virtual void close() {}
 	virtual ~parser() {}
     };

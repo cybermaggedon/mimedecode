@@ -12,7 +12,7 @@ public:
     my_decoder() {}
     virtual void object_created(mime::object* object);
     virtual void data_start(mime::object* obj);
-    virtual void data(mime::object* obj, unsigned char *data, 
+    virtual void data(mime::object* obj, const unsigned char *data, 
 		      int len);
     virtual void data_end(mime::object* obj);
 };
@@ -46,7 +46,7 @@ void my_decoder::data_start(mime::object* object)
 	 << endl;
 }
 
-void my_decoder::data(mime::object* object, unsigned char *data, int len)
+void my_decoder::data(mime::object* object, const unsigned char *data, int len)
 {
 //    cerr << "*** Data (" << len << ")" << endl;
     for(int i = 0; i < len; i++)

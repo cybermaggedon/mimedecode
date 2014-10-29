@@ -32,7 +32,7 @@ namespace mime {
 		"abcdefghijklmnopqrstuvwxyz"
 		"0123456789+/";
 	}
-        virtual void parse(unsigned char* c, unsigned int len);
+        virtual void parse(const unsigned char* c, unsigned int len);
 	void close() {
 	    client->data_end(obj);
 	}
@@ -56,7 +56,7 @@ namespace mime {
 	    buffer = 0;
 	    state = NORMAL;
 	}
-        virtual void parse(unsigned char* c, unsigned int len);
+        virtual void parse(const unsigned char* c, unsigned int len);
 	void close() {
 	    client->data_end(obj);
 	}
@@ -78,7 +78,7 @@ namespace mime {
 	int posn;
       public:
 	multipart_parser(client_interface* client, object* obj);
-	virtual void parse(unsigned char* c, unsigned int len);
+	virtual void parse(const unsigned char* c, unsigned int len);
 	void close();
     };
 
@@ -88,7 +88,7 @@ namespace mime {
 	    object_body_parser(client, obj) {
 	    client->data_start(obj);
 	}
-        virtual void parse(unsigned char* c, unsigned int len);
+        virtual void parse(const unsigned char* c, unsigned int len);
 	void close() { 	    
 	    client->data_end(obj);
 	}
@@ -132,7 +132,7 @@ namespace mime {
 	    this->obj = obj;
 	    state = PREKEY;
 	}
-	virtual void parse(unsigned char* c, unsigned int len);
+	virtual void parse(const unsigned char* c, unsigned int len);
     };
 
     class any_object_parser : public object_parser {
@@ -145,7 +145,7 @@ namespace mime {
 	    p = new header_parser(obj);
 	    state = HEADER;
 	}
-	virtual void parse(unsigned char* c, unsigned int len);
+	virtual void parse(const unsigned char* c, unsigned int len);
 	void close() {
 	    if (p) {
 		p->close();

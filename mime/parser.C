@@ -5,7 +5,7 @@
 
 using namespace mime;
 
-void base64_parser::parse(unsigned char* buf, unsigned int len)
+void base64_parser::parse(const unsigned char* buf, unsigned int len)
 {
 
     for(int i = 0; i < len; i++) {
@@ -41,7 +41,7 @@ void base64_parser::parse(unsigned char* buf, unsigned int len)
 }
 
 
-void any_object_parser::parse(unsigned char* buf, unsigned int len)
+void any_object_parser::parse(const unsigned char* buf, unsigned int len)
 {
 
     for(int i = 0; i < len; i++) {
@@ -70,7 +70,7 @@ void any_object_parser::parse(unsigned char* buf, unsigned int len)
 
 }
 
-void simple_parser::parse(unsigned char* buf, unsigned int len)
+void simple_parser::parse(const unsigned char* buf, unsigned int len)
 {
 
     client->data(obj, buf, len);
@@ -79,7 +79,7 @@ void simple_parser::parse(unsigned char* buf, unsigned int len)
 
 #include <iostream>
 
-void quotedprintable_parser::parse(unsigned char* buf, unsigned int len)
+void quotedprintable_parser::parse(const unsigned char* buf, unsigned int len)
 {
 
     for(int i = 0; i < len; i++) {

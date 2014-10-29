@@ -32,7 +32,7 @@ namespace mime {
 	   This method is used to deliver data parsed from the MIME
 	   object.
 	*/
-	virtual void data(object* obj, unsigned char *data, int len) = 0;
+	virtual void data(object* obj, const unsigned char *data, int len) = 0;
 
 	/**
 	   This method is used to indicate that all data from the MIME

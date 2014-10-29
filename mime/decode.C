@@ -11,7 +11,7 @@
 
 using namespace mime;
 
-void decoder::decode(unsigned char* buf, unsigned int len)
+void decoder::decode(const unsigned char* buf, unsigned int len)
 {
 
     if (!p)
