@@ -44,103 +44,109 @@ void multipart_parser::close()
 
 }
 
-void multipart_parser::parse(unsigned char c)
+void multipart_parser::parse(unsigned char* buf, unsigned int len)
 {
+    
+    for(int i = 0; i < len; i++) {
 
-    if (state == ATBOUND) {
-	if (c == '-') { state = FOLLBOUND; return; }
-	if (c == '\r') { state = FOLLBOUND; return; }
-	if (c == '\n') { state = STARTOBJECT; return; }
-	throw error("MIME duff boundary stuff");
-    }
+	unsigned char c = buf[i];
 
-    if (state == FOLLBOUND) {
-	if (c == '-') { state = DONE; return; }
-	if (c == '\n') { state = STARTOBJECT; return; }
-	throw error("MIME duff boundary stuff");
-    }
-
-    if (state == PRE) {
-
-	if (c == boundary[posn])
-	    posn++;
-	else {
-	    if (c == boundary[0])
-		posn = 1;
-	    else
-		posn = 0;
+	if (state == ATBOUND) {
+	    if (c == '-') { state = FOLLBOUND; return; }
+	    if (c == '\r') { state = FOLLBOUND; return; }
+	    if (c == '\n') { state = STARTOBJECT; return; }
+	    throw error("MIME duff boundary stuff");
 	}
 
-	
-	if (posn == boundary.size()) {
-	    state = ATBOUND;
-	    posn = 0;
-	    return;
+	if (state == FOLLBOUND) {
+	    if (c == '-') { state = DONE; return; }
+	    if (c == '\n') { state = STARTOBJECT; return; }
+	    throw error("MIME duff boundary stuff");
 	}
 
-	return;
-    }
+	if (state == PRE) {
 
-    if (state == STARTOBJECT) {
-
-	if (sub_parser) {
-	    sub_parser->close();
-	    delete sub_parser;
-	}
-
-	if (sub_obj) {
-	    delete sub_obj;
-	    sub_obj = 0;
-	}
-	
-	sub_obj = new object();
-	sub_obj->parent = obj;
-
-	sub_parser = parser_factory::generic(client, sub_obj);
-
-	state = INSIDE;
-
-	sub_parser->parse(c);
-
-	posn = 0;
-	buffer = "";
-
-	return;
-
-    }
-
-    if (state == INSIDE) {
-	if (c == boundary[posn]) {
-	    posn++;
-	    buffer += c;
-	} else {
-
-	    // Dispose of buffer
-	    if (posn) {
-		for(int i = 0; i < buffer.size(); i++)
-		    sub_parser->parse(buffer[i]);
-		buffer = "";
-		posn = 0;
+	    if (c == boundary[posn])
+		posn++;
+	    else {
+		if (c == boundary[0])
+		    posn = 1;
+		else
+		    posn = 0;
 	    }
 
-	    // This character may start the match again.
-	    if (c == boundary[0]) {
-		posn = 1;
+	
+	    if (posn == boundary.size()) {
+		state = ATBOUND;
+		posn = 0;
+		continue;
+	    }
+
+	    continue;
+	}
+
+	if (state == STARTOBJECT) {
+
+	    if (sub_parser) {
+		sub_parser->close();
+		delete sub_parser;
+	    }
+
+	    if (sub_obj) {
+		delete sub_obj;
+		sub_obj = 0;
+	    }
+	
+	    sub_obj = new object();
+	    sub_obj->parent = obj;
+
+	    sub_parser = parser_factory::generic(client, sub_obj);
+
+	    state = INSIDE;
+
+	    sub_parser->parse(c);
+
+	    posn = 0;
+	    buffer = "";
+
+	    continue;
+
+	}
+
+	if (state == INSIDE) {
+	    if (c == boundary[posn]) {
+		posn++;
 		buffer += c;
 	    } else {
-		posn = 0;
-		sub_parser->parse(c);
+
+		// Dispose of buffer
+		if (posn) {
+		    for(int i = 0; i < buffer.size(); i++)
+			sub_parser->parse(buffer[i]);
+		    buffer = "";
+		    posn = 0;
+		}
+
+		// This character may start the match again.
+		if (c == boundary[0]) {
+		    posn = 1;
+		    buffer += c;
+		} else {
+		    posn = 0;
+		    sub_parser->parse(c);
+		}
+
 	    }
 
-	}
+	    if (posn == boundary.size()) {
+		state = ATBOUND;
+		posn = 0;
+		continue;
+	    }
 
-	if (posn == boundary.size()) {
-	    state = ATBOUND;
-	    posn = 0;
-	    return;
-	}
+	    continue;
 
-	return;
+	}
 
     }
 

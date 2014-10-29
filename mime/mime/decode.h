@@ -77,7 +77,7 @@ namespace mime {
 	   The data produced should call this method to present data to the
 	   decoder.
 	*/
-	void decode(unsigned char c);
+	void decode(unsigned char* buf, unsigned int len);
     };
 
 }

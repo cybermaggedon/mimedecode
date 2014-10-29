@@ -89,83 +89,90 @@ void header_parser::add_header(const std::string& key,
 }
 
 
-void header_parser::parse(unsigned char c)
+void header_parser::parse(unsigned char* buf, unsigned int len)
 {
-    switch (state) {
 
-    case CR:
-	if (c == '\n') {
-	    state = EOL; return;
-	}
-	throw error("CR without LF in MIME header?");
+    for(int i = 0; i < len; i++) {
 
-    case EOL:
+	unsigned char c = buf[i];
 
-	// This deals with continuation.
-	if (c == ' ' || c == '\t') { 
-	    state = VAL; return;
-	}
+	switch (state) {
+
+	case CR:
+	    if (c == '\n') {
+		state = EOL; return;
+	    }
+	    throw error("CR without LF in MIME header?");
+
+	case EOL:
+
+	    // This deals with continuation.
+	    if (c == ' ' || c == '\t') { 
+		state = VAL; return;
+	    }
 	
-	// Not a continue, save key/value if there is one.
-	if (key != "") {
-	    add_header(key, value);
-	}
-
-	if (c == '\r') return;
-
-	if (c == '\n') {
-
-	    if (obj->fields.find("content-type") != obj->fields.end()) {
-		std::string ct = obj->fields["content-type"].value;
-		if (ct.find('/') >= 0) {
-		    obj->type = ct.substr(0, ct.find('/'));
-		    obj->subtype = ct.substr(ct.find('/') + 1);
-		}
+	    // Not a continue, save key/value if there is one.
+	    if (key != "") {
+		add_header(key, value);
 	    }
 
-	    throw end_of_header("EOH");
+	    if (c == '\r') return;
 
-	}
+	    if (c == '\n') {
 
-	// EOL, now reading a key.
+		if (obj->fields.find("content-type") != obj->fields.end()) {
+		    std::string ct = obj->fields["content-type"].value;
+		    if (ct.find('/') >= 0) {
+			obj->type = ct.substr(0, ct.find('/'));
+			obj->subtype = ct.substr(ct.find('/') + 1);
+		    }
+		}
 
-	state = KEY;
-	key = tolower(c);
-	return;
+		throw end_of_header("EOH");
 
-    case PREKEY:
-	if (c == ' ' || c == '\t') return;
-	if (c == ':') throw error("Zero length key?");
-	state = KEY;
-	key = tolower(c);
-	return;
+	    }
 
-    case KEY:
-	if (c == ' ' || c == '\t') return;
-	if (c == ':') { state = PREVAL; return; }
-	key += tolower(c);
-	return;
+	    // EOL, now reading a key.
 
-    case PREVAL:
-	if (c == ' ' || c == '\t') return;
-	if (c == '\r') { state = CR; return; }
-	if (c == '\n') { state = EOL; return; }
-	value = c;
-	state = VAL;
-	return;
+	    state = KEY;
+	    key = tolower(c);
+	    return;
+
+	case PREKEY:
+	    if (c == ' ' || c == '\t') return;
+	    if (c == ':') throw error("Zero length key?");
+	    state = KEY;
+	    key = tolower(c);
+	    return;
+
+	case KEY:
+	    if (c == ' ' || c == '\t') return;
+	    if (c == ':') { state = PREVAL; return; }
+	    key += tolower(c);
+	    return;
+
+	case PREVAL:
+	    if (c == ' ' || c == '\t') return;
+	    if (c == '\r') { state = CR; return; }
+	    if (c == '\n') { state = EOL; return; }
+	    value = c;
+	    state = VAL;
+	    return;
 	
-    case VAL:
-	if (c == '\r') {
-	    state = CR;
-	    return;
-	}
-	if (c == '\n') {
-	    state = EOL;
-	    return;
-	}
+	case VAL:
+	    if (c == '\r') {
+		state = CR;
+		return;
+	    }
+	    if (c == '\n') {
+		state = EOL;
+		return;
+	    }
 
-	value += c;
-	return;
+	    value += c;
+	    return;
+
+	}
 
     }
 

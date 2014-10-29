@@ -67,10 +67,14 @@ int main(int argc, char **argv)
 
 	my_decoder d;
 
-	while (cin.good()) {
-	    unsigned char c = cin.get();
-	    if (cin.good())
-		d.decode(c);
+	char buf[1024];
+	int ret;
+
+	while (true) {
+	    cin.read(buf, 1024);
+	    int ret = cin.gcount();
+	    if (ret == 0) break;
+	    d.decode(reinterpret_cast<unsigned char*>(buf), ret);
 	}
 
 	d.close();

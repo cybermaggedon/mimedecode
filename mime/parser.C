@@ -5,91 +5,110 @@
 
 using namespace mime;
 
-void base64_parser::parse(unsigned char c)
+void base64_parser::parse(unsigned char* buf, unsigned int len)
 {
 
-    if (c == '=') {
-	buffer = buffer << 6;
-	pad += 6;
-	buflen++;
-    } else {
-	unsigned int pos = encoding.find(c);
-	if (pos != std::string::npos) {
+    for(int i = 0; i < len; i++) {
+	
+	unsigned char c = buf[i];
+	if (c == '=') {
 	    buffer = buffer << 6;
-	    buffer = buffer | (pos & 0x3f);
+	    pad += 6;
 	    buflen++;
+	} else {
+	    unsigned int pos = encoding.find(c);
+	    if (pos != std::string::npos) {
+		buffer = buffer << 6;
+		buffer = buffer | (pos & 0x3f);
+		buflen++;
+	    }
 	}
-    }
 
-    if (buflen == 4) {
-	for(int i = 0; i < 3; i++) {
-	    if ((i * 8) > (16 - pad)) continue;
-	    unsigned char c = (buffer & 0xff0000)>>16;
-	    client->data(obj, &c, 1);
-	    buffer = buffer << 8;
+	if (buflen == 4) {
+	    for(int i = 0; i < 3; i++) {
+		if ((i * 8) > (16 - pad)) continue;
+		unsigned char c = (buffer & 0xff0000)>>16;
+		client->data(obj, &c, 1);
+		buffer = buffer << 8;
+	    }
+	    buflen = 0;
+	    buffer = 0;
+	    pad = 0;
 	}
-	buflen = 0;
-	buffer = 0;
-	pad = 0;
+
     }
 
 }
 
 
-void any_object_parser::parse(unsigned char c)
+void any_object_parser::parse(unsigned char* buf, unsigned int len)
 {
-    if (state == HEADER_COMPLETE) {
 
-	delete p;
-	state = BODY;
+    for(int i = 0; i < len; i++) {
 
-	client->object_created(obj);
+	unsigned char c = buf[i];
 
-	// Use the parser factory to get an appropriate parser.
-	p = parser_factory::create(client, obj);
+	if (state == HEADER_COMPLETE) {
 
-    }
+	    delete p;
+	    state = BODY;
 
-    try {
-	p->parse(c);
-    } catch (end_of_header& e) {
-	state = HEADER_COMPLETE;
+	    client->object_created(obj);
+
+	    // Use the parser factory to get an appropriate parser.
+	    p = parser_factory::create(client, obj);
+
+	}
+
+	try {
+	    p->parse(c);
+	} catch (end_of_header& e) {
+	    state = HEADER_COMPLETE;
+	}
+
     }
 
 }
 
-void simple_parser::parse(unsigned char c)
+void simple_parser::parse(unsigned char* buf, unsigned int len)
 {
-    client->data(obj, &c, 1);
+
+    client->data(obj, buf, len);
 
 }
 
 #include <iostream>
 
-void quotedprintable_parser::parse(unsigned char c)
+void quotedprintable_parser::parse(unsigned char* buf, unsigned int len)
 {
 
-    if (state == SPECIAL) {
-	static const std::string v = "0123456789ABCDEF";
-	if (v.find(c) < 0) return;
-	buffer = buffer << 8 | (v.find(c));
-	buflen++;
-	if (buflen == 2) {
-	    c = (unsigned char) buffer;
-	    client->data(obj, &c, 1);
-	    state = NORMAL;
+    for(int i = 0; i < len; i++) {
+
+	unsigned char c = buf[i];
+
+	if (state == SPECIAL) {
+	    static const std::string v = "0123456789ABCDEF";
+	    if (v.find(c) < 0) return;
+	    buffer = buffer << 8 | (v.find(c));
+	    buflen++;
+	    if (buflen == 2) {
+		c = (unsigned char) buffer;
+		client->data(obj, &c, 1);
+		state = NORMAL;
+	    }
+	    continue;
 	}
-	return;
-    }
 
-    if (c == '=') {
-	state = SPECIAL;
-	buflen = 0;
-	return;
-    }
+	if (c == '=') {
+	    state = SPECIAL;
+	    buflen = 0;
+	    continue;
+	}
 
-    // Normal character, output it
-    client->data(obj, &c, 1);
+	// Normal character, output it
+	client->data(obj, &c, 1);
+
+    }
 
 }
 

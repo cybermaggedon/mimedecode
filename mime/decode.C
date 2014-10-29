@@ -11,12 +11,12 @@
 
 using namespace mime;
 
-void decoder::decode(unsigned char c)
+void decoder::decode(unsigned char* buf, unsigned int len)
 {
 
     if (!p)
 	p = parser_factory::generic(this, obj);
 
-    p->parse(c);
+    p->parse(buf, len);
 
 }
