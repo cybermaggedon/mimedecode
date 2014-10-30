@@ -1,0 +1,29 @@
+
+AT_INIT([Regression suite])
+AT_COLOR_TESTS
+
+# ----------------------------------------------------------------------------
+
+AT_BANNER([MIME samples.])
+
+AT_SETUP([EXAMPLE1])
+AT_CHECK([cat $abs_top_srcdir/tests/EXAMPLE1 | \
+	      $abs_top_builddir/src/mimedecode | \
+	      diff - $abs_top_srcdir/tests/OUTPUT1],,[])
+AT_CLEANUP
+
+AT_SETUP([EXAMPLE2])
+AT_CHECK([cat $abs_top_srcdir/tests/EXAMPLE2 | \
+	      $abs_top_builddir/src/mimedecode | \
+	      diff - $abs_top_srcdir/tests/OUTPUT2],,[])
+AT_CLEANUP
+
+#AT_SETUP([exampleorg.pcap])
+#cat $abs_srcdir/samples/exampleorg.pcap | \
+#    $abs_top_builddir/src/cybermon - $abs_top_srcdir/config/monitor.lua | \
+#    sort > output1
+#sort < $abs_srcdir/samples/exampleorg.pcap.monitor > output2
+#AT_CHECK([diff output1 output2],,[])
+#AT_CLEANUP
+
+

@@ -20,7 +20,7 @@ public:
 void my_decoder::object_created(mime::object* object)
 {
 
-    cerr << "*** New object type " 
+    std::cout << "*** New object type " 
 	 << object->type << "/" << object->subtype
 	 << endl;
 
@@ -28,12 +28,12 @@ void my_decoder::object_created(mime::object* object)
     for(i = object->fields.begin();
 	i != object->fields.end();
 	i++) {
-	cerr << "  " << i->first << ":" << i->second.value << endl;
+	std::cout << "  " << i->first << ":" << i->second.value << endl;
 	map<string,string>::iterator j;
 	for(j = i->second.attributes.begin();
 	    j != i->second.attributes.end();
 	    j++) {
-	    cerr << "    " << j->first << ":" << j->second << endl;
+	    std::cout << "    " << j->first << ":" << j->second << endl;
 	}
     }
 
@@ -41,21 +41,21 @@ void my_decoder::object_created(mime::object* object)
 
 void my_decoder::data_start(mime::object* object)
 {
-    cerr << "*** Data start " 
+    std::cout << "*** Data start " 
 	 << object->type << "/" << object->subtype
 	 << endl;
 }
 
 void my_decoder::data(mime::object* object, const unsigned char *data, int len)
 {
-//    cerr << "*** Data (" << len << ")" << endl;
+//    std::cout << "*** Data (" << len << ")" << endl;
     for(int i = 0; i < len; i++)
-	cerr << data[i];
+	std::cout << data[i];
 }
 
 void my_decoder::data_end(mime::object* object)
 {
-    cerr << "*** Data end " 
+    std::cout << "*** Data end " 
 	 << object->type << "/" << object->subtype
 	 << endl;
 }
@@ -80,7 +80,7 @@ int main(int argc, char **argv)
 	d.close();
 
     } catch (exception& e) {
-	cerr << "Exception: " << e.what() << endl;
+	std::cout << "Exception: " << e.what() << endl;
     }
 
 }
