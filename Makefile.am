@@ -1,5 +1,5 @@
 
-SUBDIRS = src tests
+SUBDIRS = src tests include
 
 ACLOCAL_AMFLAGS = -I m4
 

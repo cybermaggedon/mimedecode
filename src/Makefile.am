@@ -1,9 +1,11 @@
 
 lib_LTLIBRARIES = libmimedecode.la
 libmimedecode_la_SOURCES = decode.C header.C multipart.C parser.C \
-	mime/client.h mime/exception.h mime/object.h \
-	mime/parser_implementations.h mime/decode.h mime/field.h \
-	mime/parser.h
+	../include/mimedecode/client.h ../include/mimedecode/exception.h \
+	../include/mimedecode/object.h \
+	../include/mimedecode/parser_implementations.h \
+	../include/mimedecode/decode.h ../include/mimedecode/field.h \
+	../include/mimedecode/parser.h
 
 bin_PROGRAMS = mimedecode
 
