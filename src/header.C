@@ -1,7 +1,8 @@
 
+#include <algorithm>
+
 #include <mime/parser.h>
 #include <mime/parser_implementations.h>
-
 #include <mime/exception.h>
 
 using namespace mime;
@@ -81,10 +82,13 @@ void header_parser::add_header(const std::string& key,
     fld.key = key;
     fld.value = value;
 
-    if (key == "content-type")
+    std::string lwr = key;
+    std::transform(lwr.begin(), lwr.end(), lwr.begin(), ::tolower);
+
+    if (lwr == "content-type")
 	parse_attrs(fld);
 
-    obj->fields[key] = fld;
+    obj->fields[lwr] = fld;
 
 }
 
@@ -135,20 +139,20 @@ void header_parser::parse(const unsigned char* buf, unsigned int len)
 	    // EOL, now reading a key.
 
 	    state = KEY;
-	    key = tolower(c);
+	    key = c;
 	    return;
 
 	case PREKEY:
 	    if (c == ' ' || c == '\t') return;
 	    if (c == ':') throw error("Zero length key?");
 	    state = KEY;
-	    key = tolower(c);
+	    key = c;
 	    return;
 
 	case KEY:
 	    if (c == ' ' || c == '\t') return;
 	    if (c == ':') { state = PREVAL; return; }
-	    key += tolower(c);
+	    key += c;
 	    return;
 
 	case PREVAL:

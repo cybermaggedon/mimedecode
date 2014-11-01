@@ -28,12 +28,12 @@ void my_decoder::object_created(mime::object* object)
     for(i = object->fields.begin();
 	i != object->fields.end();
 	i++) {
-	std::cout << "  " << i->first << ":" << i->second.value << endl;
+	std::cout << "  " << i->second.key << ": " << i->second.value << endl;
 	map<string,string>::iterator j;
 	for(j = i->second.attributes.begin();
 	    j != i->second.attributes.end();
 	    j++) {
-	    std::cout << "    " << j->first << ":" << j->second << endl;
+	    std::cout << "    " << j->first << ": " << j->second << endl;
 	}
     }
 

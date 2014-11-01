@@ -18,7 +18,7 @@ $(srcdir)/package.m4: $(top_srcdir)/configure.ac
 	} >'$(srcdir)/package.m4'
 
 EXTRA_DIST = testsuite.at $(srcdir)/package.m4 $(TESTSUITE) \
-	atlocal.in EXAMPLE1 EXAMPLE1
+	atlocal.in EXAMPLE1 EXAMPLE2 OUTPUT1 OUTPUT2
 
 TESTSUITE = $(srcdir)/testsuite
 DISTCLEANFILES = $(TESTSUITE) atconfig
