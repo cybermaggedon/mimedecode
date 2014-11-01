@@ -6,7 +6,7 @@
 
 #include <sys/types.h>
 
-#include <mime/object.h>
+#include <mimedecode/object.h>
 
 namespace mime {
 

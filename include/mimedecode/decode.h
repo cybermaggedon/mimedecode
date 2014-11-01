@@ -8,12 +8,12 @@
 
 #include <sys/types.h>
 
-#include <mime/field.h>
-#include <mime/object.h>
-#include <mime/parser.h>
-#include <mime/client.h>
-#include <mime/exception.h>
-#include <mime/parser_implementations.h>
+#include <mimedecode/field.h>
+#include <mimedecode/object.h>
+#include <mimedecode/parser.h>
+#include <mimedecode/client.h>
+#include <mimedecode/exception.h>
+#include <mimedecode/parser_implementations.h>
 
 /**
    \mainpage mimedecode

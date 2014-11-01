@@ -1,7 +1,7 @@
 
-#include <mime/parser.h>
-#include <mime/parser_implementations.h>
-#include <mime/exception.h>
+#include <mimedecode/parser.h>
+#include <mimedecode/parser_implementations.h>
+#include <mimedecode/exception.h>
 
 using namespace mime;
 

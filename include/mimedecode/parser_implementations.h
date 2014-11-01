@@ -4,10 +4,10 @@
 
 #include <string>
 
-#include <mime/field.h>
-#include <mime/object.h>
-#include <mime/client.h>
-#include <mime/parser.h>
+#include <mimedecode/field.h>
+#include <mimedecode/object.h>
+#include <mimedecode/client.h>
+#include <mimedecode/parser.h>
 
 #include <stdint.h>
 

@@ -7,7 +7,7 @@
 
 #include <sys/types.h>
 
-#include <mime/field.h>
+#include <mimedecode/field.h>
 
 namespace mime {
 

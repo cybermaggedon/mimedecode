@@ -10,9 +10,5 @@ bin_PROGRAMS = mimedecode
 mimedecode_SOURCES = mimedecode.C
 mimedecode_LDADD = libmimedecode.la
 
-AM_CPPFLAGS = -I.
+AM_CPPFLAGS = -I${top_srcdir}/include
 
-cybermonincdir = ${includedir}/mime
-
-cybermoninc_HEADERS = mime/client.h mime/exception.h mime/object.h \
-	mime/parser_implementations.h mime/decode.h mime/field.h mime/parser.h

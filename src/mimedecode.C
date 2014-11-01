@@ -1,5 +1,5 @@
 
-#include <mime/decode.h>
+#include <mimedecode/decode.h>
 
 #include <iostream>
 

@@ -28,7 +28,8 @@ AC_TYPE_UINT32_T
 
 # Checks for library functions.
 AC_FUNC_ERROR_AT_LINE
-AC_CONFIG_FILES([Makefile src/Makefile tests/Makefile tests/atlocal])
+AC_CONFIG_FILES([Makefile src/Makefile tests/Makefile tests/atlocal
+	include/Makefile])
 
 AC_OUTPUT
 

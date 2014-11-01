@@ -4,8 +4,8 @@
 
 #include <string>
 
-#include <mime/client.h>
-#include <mime/object.h>
+#include <mimedecode/client.h>
+#include <mimedecode/object.h>
 
 namespace mime {
 

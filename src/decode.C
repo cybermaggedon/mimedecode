@@ -1,9 +1,9 @@
 
-#include <mime/decode.h>
-#include <mime/exception.h>
-#include <mime/field.h>
-#include <mime/object.h>
-#include <mime/parser.h>
+#include <mimedecode/decode.h>
+#include <mimedecode/exception.h>
+#include <mimedecode/field.h>
+#include <mimedecode/object.h>
+#include <mimedecode/parser.h>
 
 #include <stdexcept>
 #include <sstream>
