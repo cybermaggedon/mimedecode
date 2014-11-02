@@ -36,7 +36,7 @@
  */
 
 /**
-   \example simple.C
+   \example mimedecode.C
 */
 
 
